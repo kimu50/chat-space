@@ -1,68 +1,65 @@
-#DB設計
+# DB設計
 
-##Users table
+## Users table
 
-|Column  |Type   |Options                        |
-|:-------|:----- |:------------------------------|
-|name    |string |null:false,add_index,index:true|
-|email   |string |null:false,unique,true         |
-|password|integer|null:false,unique,true         |
+|Column  |Type   |Options                          |
+|:-------|:----- |:--------------------------------|
+|name    |string |null:false,index:true,unique:true|
 
-###Association
+### Association
 
--has_many :messages
+- has_many :messages
 
--has_many :group_users
+- has_many :group_users
 
--has_many :groups, through: :group_users
+- has_many :groups, through: :group_users
 
 
-##Messages table
+## Messages table
 
 |Column  |Type   |Options                        |
 |:-------|:----- |:------------------------------|
 |body    |text   |null:false                     |
-|image   |string |                               |
-|user_id |integer|foreign_key:true               |
-|group_id|integer|foreign_key:true               |
+|image   |string |null:false                     |
+|user_id |integer|foreign_key:true,null:false    |
+|group_id|integer|foreign_key:true,null:false    |
 
-###Assotiation
+### Assotiation
 
--belongs_to :user
+- belongs_to :user
 
--belongs_to :group
+- belongs_to :group
 
 
-##Group table
+## Groups table
+
+|Column     |Type   |Options                        |
+|:----------|:----- |:------------------------------|
+|name       |string |null:false,unique:true         |
+
+
+### Assotiation
+
+- has_many :group_users
+
+- has_many :users,through: :group_users
+
+- has_many :messages
+
+
+## Group_users table
+
 
 |Column    |Type   |Options                        |
 |:---------|:----- |:------------------------------|
-|name      |string |null:false,unique:true         |
-|user_id   |integer|foreign_key:true               |
-|message_id|integer|foreign_key:true               |
+|user_id   |integer|foreign_key:true,null:false    |
+|message_id|integer|foreign_key:true,null:false    |
 
-###Assotiation
+### Assotiation
 
--has_many :group_users
+- belongs_to :user
 
--has_many :users,through: :group_users
-
--has_many :messages
-
-
-##Group_users table
-
-
-|Column    |Type   |Options                        |
-|:---------|:----- |:------------------------------|
-|user_id   |integer|foreign_key:true               |
-|message_id|integer|foreign_key:true               |
-
-###Assotiation
-
--belongs_to :user
-
--belongs_to :message
+- belongs_to :group
 
 
 
